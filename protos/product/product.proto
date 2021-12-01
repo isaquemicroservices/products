@@ -1,9 +1,7 @@
 syntax="proto3";
 
-package proto;
-
 // package to protobuf file
-option go_package = "github.com/isaqueveras/products-microservice/proto";
+option go_package = "product/";
 
 service Products {
   // List function to show one list of products

@@ -4,21 +4,13 @@ import (
 	"log"
 	"net"
 
-	pb "github.com/isaqueveras/products-microservice/proto"
-	"golang.org/x/net/context"
+	pb "github.com/isaqueveras/products-microservice/application/product"
 	"google.golang.org/grpc"
 )
 
 // Server init server with gRPC
 type Server struct {
 	pb.UnimplementedProductsServer
-}
-
-// List function to list all products
-func (s *Server) List(ctx context.Context, _ *pb.Void) (res *pb.ListProducts, err error) {
-	res = new(pb.ListProducts)
-
-	return res, nil
 }
 
 // port of server
