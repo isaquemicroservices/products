@@ -1,0 +1,35 @@
+syntax="proto3";
+
+package proto;
+
+// package to protobuf file
+option go_package = "github.com/isaqueveras/products-microservice/proto";
+
+service Products {
+  // List function to show one list of products
+  rpc List(Void) returns (ListProducts) {}
+  // Show model to show details of one product
+  rpc Show(Params) returns (Product) {}
+}
+
+// Product model of one product
+message Product {
+  int64 id = 1;
+  string name = 2;
+  string description = 3;
+  double price = 4;
+}
+
+// ListProducts model of one list of products
+message ListProducts {
+  repeated Product products = 1;
+}
+
+// Params data model from params
+message Params {
+  int64 id = 1;
+  string name = 2;
+}
+
+// Void model null
+message Void {}
