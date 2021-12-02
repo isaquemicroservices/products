@@ -18,7 +18,7 @@ type DBTransaction struct {
 
 var (
 	host     = os.Getenv("DB_HOST")
-	port, _  = strconv.ParseInt(os.Getenv("DB_POORT"), 10, 64)
+	port, _  = strconv.ParseInt(os.Getenv("DB_PORT"), 10, 64)
 	user     = os.Getenv("DB_USER")
 	password = os.Getenv("DB_PASS")
 	dbname   = os.Getenv("DB_NAME")
