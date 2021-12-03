@@ -3,39 +3,56 @@ package database
 import (
 	"context"
 	"database/sql"
-	"fmt"
 	"os"
-	"strconv"
 
 	"github.com/Masterminds/squirrel"
+	_ "github.com/lib/pq"
 )
 
 // DBTransaction used to aggregate transactions
 type DBTransaction struct {
 	postgres *sql.Tx
 	Builder  squirrel.StatementBuilderType
+	ctx      context.Context
 }
 
-var (
-	host     = os.Getenv("DB_HOST")
-	port, _  = strconv.ParseInt(os.Getenv("DB_PORT"), 10, 64)
-	user     = os.Getenv("DB_USER")
-	password = os.Getenv("DB_PASS")
-	dbname   = os.Getenv("DB_NAME")
-)
+// Config used to configuration of database
+type Config struct {
+	Drive string
+	Host  string
+	Port  string
+	User  string
+	Pass  string
+	Name  string
+}
 
 // OpenConnection initialize connection with database
-func OpenConnection(readOnly bool) (*DBTransaction, error) {
-	t := &DBTransaction{}
-	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+"password=%s dbname=%s sslmode=disable",
-		host, port, user, password, dbname)
+func OpenConnection(ctx context.Context, readOnly bool) (*DBTransaction, error) {
+	var (
+		t   = &DBTransaction{}
+		db  *sql.DB
+		err error
+		c   = Config{
+			Drive: os.Getenv("DB_DRIVE"),
+			Host:  os.Getenv("DB_HOST"),
+			Port:  os.Getenv("DB_PORT"),
+			User:  os.Getenv("DB_USER"),
+			Pass:  os.Getenv("DB_PASS"),
+			Name:  os.Getenv("DB_NAME"),
+		}
+	)
 
-	db, err := sql.Open("postgres", psqlInfo)
-	if err != nil {
-		return nil, err
+	if db, err = sql.Open(c.Drive, "host="+c.Host+" port="+c.Port+" user="+c.User+" password="+c.Pass+" dbname="+c.Name+" sslmode=disable"); err != nil {
+		return t, err
 	}
 
-	ctx, err := db.BeginTx(context.Background(), &sql.TxOptions{
+	defer db.Close()
+
+	if err = db.Ping(); err != nil {
+		return t, err
+	}
+
+	transaction, err := db.BeginTx(ctx, &sql.TxOptions{
 		Isolation: 0,
 		ReadOnly:  readOnly,
 	})
@@ -44,7 +61,8 @@ func OpenConnection(readOnly bool) (*DBTransaction, error) {
 		return nil, err
 	}
 
-	t.postgres = ctx
+	t.ctx = ctx
+	t.postgres = transaction
 	t.Builder = squirrel.StatementBuilder.
 		PlaceholderFormat(squirrel.Dollar).
 		RunWith(t.postgres)
@@ -54,8 +72,7 @@ func OpenConnection(readOnly bool) (*DBTransaction, error) {
 
 // Commit commit pending transactions for all open databases
 func (t *DBTransaction) Commit() (erro error) {
-	erro = t.postgres.Commit()
-	return
+	return t.postgres.Commit()
 }
 
 // Rollback rollback transaction pending for all open databases
