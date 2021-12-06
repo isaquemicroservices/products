@@ -102,7 +102,7 @@ type ListProducts struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Products []Product `protobuf:"bytes,1,rep,name=products,proto3" json:"products,omitempty"`
+	Products []*Product `protobuf:"bytes,1,rep,name=products,proto3" json:"products,omitempty"`
 }
 
 func (x *ListProducts) Reset() {
@@ -137,7 +137,7 @@ func (*ListProducts) Descriptor() ([]byte, []int) {
 	return file_product_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *ListProducts) GetProducts() []Product {
+func (x *ListProducts) GetProducts() []*Product {
 	if x != nil {
 		return x.Products
 	}
