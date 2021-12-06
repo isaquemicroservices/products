@@ -19,3 +19,12 @@ func (s *Server) Show(ctx context.Context, in *product.Params) (res *product.Pro
 
 	return
 }
+
+// List list all products on database
+func (s *Server) List(ctx context.Context, _ *product.Void) (res *product.ListProducts, err error) {
+	if res, err = product.ListAll(ctx); err != nil {
+		return nil, err
+	}
+
+	return
+}

@@ -7,4 +7,5 @@ import (
 // IProduct defines all services available for product
 type IProduct interface {
 	ShowDetails(*int64) (*product.Product, error)
+	ListAll() (*product.ListProducts, error)
 }

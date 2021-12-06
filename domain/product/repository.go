@@ -20,3 +20,8 @@ func New(db *database.DBTransaction) *repository {
 func (r *repository) ShowDetails(ProductID *int64) (*product.Product, error) {
 	return r.pg.ShowDetails(ProductID)
 }
+
+// ListAll get a list of a products on database
+func (r *repository) ListAll() (*product.ListProducts, error) {
+	return r.pg.ListAll()
+}

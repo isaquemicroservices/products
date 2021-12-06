@@ -7,3 +7,8 @@ type Product struct {
 	Description *string
 	Price       *float64
 }
+
+// ListProducts model a list of products
+type ListProducts struct {
+	Data []Product
+}

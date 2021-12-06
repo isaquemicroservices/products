@@ -23,7 +23,7 @@ func main() {
 	server := grpc.NewServer()
 
 	// Message of success
-	log.Println("Server running in port", configuration.Port)
+	log.Println("Server is running in port", configuration.Port)
 
 	// Initializing server
 	if err = server.Serve(listen); err != nil {

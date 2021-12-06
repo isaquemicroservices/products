@@ -18,12 +18,12 @@ type DBTransaction struct {
 
 // Config used to configuration of database
 type Config struct {
-	Drive string
-	Host  string
-	Port  string
-	User  string
-	Pass  string
-	Name  string
+	Driver string
+	Host   string
+	Port   string
+	User   string
+	Pass   string
+	Name   string
 }
 
 // OpenConnection initialize connection with database
@@ -33,24 +33,20 @@ func OpenConnection(ctx context.Context, readOnly bool) (*DBTransaction, error) 
 		db  *sql.DB
 		err error
 		c   = Config{
-			Drive: os.Getenv("DB_DRIVE"),
-			Host:  os.Getenv("DB_HOST"),
-			Port:  os.Getenv("DB_PORT"),
-			User:  os.Getenv("DB_USER"),
-			Pass:  os.Getenv("DB_PASS"),
-			Name:  os.Getenv("DB_NAME"),
+			Driver: os.Getenv("DB_DRIVER"),
+			Host:   os.Getenv("DB_HOST"),
+			Port:   os.Getenv("DB_PORT"),
+			User:   os.Getenv("DB_USER"),
+			Pass:   os.Getenv("DB_PASS"),
+			Name:   os.Getenv("DB_NAME"),
 		}
 	)
 
-	if db, err = sql.Open(c.Drive, "host="+c.Host+" port="+c.Port+" user="+c.User+" password="+c.Pass+" dbname="+c.Name+" sslmode=disable"); err != nil {
+	if db, err = sql.Open(c.Driver, "host="+c.Host+" port="+c.Port+" user="+c.User+" password="+c.Pass+" dbname="+c.Name+" sslmode=disable"); err != nil {
 		return t, err
 	}
 
 	defer db.Close()
-
-	if err = db.Ping(); err != nil {
-		return t, err
-	}
 
 	transaction, err := db.BeginTx(ctx, &sql.TxOptions{
 		Isolation: 0,
