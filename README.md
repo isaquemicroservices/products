@@ -7,12 +7,12 @@ $ protoc -I ./protos/... file.proto --go_out=plugins=grpc:./application
 
 Set environment variables
 ```cmd
-$ export DB_HOST=localhost DB_USER=postgres DB_PASS= DB_PORT=5432 DB_NAME=postgres DB_DRIVE=postgres
+$ export DB_HOST=localhost DB_USER=postgres DB_PASS= DB_PORT=5432 DB_NAME=postgres DB_DRIVER=postgres
 ```
 
 command to run the test
 ```cmd
-$ go test ./...
+$ go test ./... --cover
 ```
 
 Command to generate test files
