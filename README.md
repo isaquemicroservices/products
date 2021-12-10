@@ -2,7 +2,7 @@
 
 Command to generate protobuf
 ```cmd
-$ protoc -I ./protos/... file.proto --go_out=plugins=grpc:./application
+$ protoc -I . protos/product/product.proto --go_out=plugins=grpc:./application
 ```
 
 Set environment variables

@@ -23,6 +23,17 @@ func TestHandler(t *testing.T) {
 		_, err := server.List(context.Background(), &app.Void{})
 		assert.Equal(t, err, nil)
 	})
+
+	t.Run("TestAddProduct", func(t *testing.T) {
+		var product = &app.Product{
+			Name:        "Quebra-cabeça, Rio de Janeiro, 1000 peças",
+			Description: "Quebra-cabeça é um jogo onde um jogador deve resolver um problema proposto.",
+			Price:       69.99,
+		}
+
+		_, err := server.Add(context.Background(), product)
+		assert.Equal(t, err, nil)
+	})
 }
 
 func getValidProduct() (id *int64) {

@@ -67,3 +67,18 @@ func (pg *PGProduct) ListAll() (res *product.ListProducts, err error) {
 
 	return
 }
+
+// Add create a products on database
+func (pg *PGProduct) Add(in *product.Product) (err error) {
+	if err = pg.DB.Builder.
+		Insert("t_products").
+		Columns("name", "description", "price").
+		Values(in.Name, in.Description, in.Price).
+		Suffix("RETURNING id").
+		QueryRow().
+		Scan(new(int64)); err != nil {
+		return err
+	}
+
+	return nil
+}

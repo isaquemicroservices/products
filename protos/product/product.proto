@@ -8,6 +8,8 @@ service Products {
   rpc List(Void) returns (ListProducts) {}
   // Show model to show details of one product
   rpc Show(Params) returns (Product) {}
+  // Add function to create product
+  rpc Add(Product) returns (Void) {}
 }
 
 // Product model of one product

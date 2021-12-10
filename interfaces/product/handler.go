@@ -28,3 +28,12 @@ func (s *Server) List(ctx context.Context, _ *product.Void) (res *product.ListPr
 
 	return
 }
+
+// Add create product on database
+func (s *Server) Add(ctx context.Context, in *product.Product) (*product.Void, error) {
+	if err := product.Add(ctx, in); err != nil {
+		return nil, err
+	}
+
+	return &product.Void{}, nil
+}

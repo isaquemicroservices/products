@@ -25,3 +25,8 @@ func (r *repository) ShowDetails(ProductID *int64) (*product.Product, error) {
 func (r *repository) ListAll() (*product.ListProducts, error) {
 	return r.pg.ListAll()
 }
+
+// Add create a products on database
+func (r *repository) Add(in *product.Product) error {
+	return r.pg.Add(in)
+}

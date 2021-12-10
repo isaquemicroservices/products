@@ -5,6 +5,8 @@ import (
 
 	"github.com/isaqueveras/products-microservice/configuration/database"
 	"github.com/isaqueveras/products-microservice/domain/product"
+	infra "github.com/isaqueveras/products-microservice/infrastructure/persistence/product"
+	"github.com/isaqueveras/products-microservice/utils"
 )
 
 // ShowDetails show details of a product
@@ -79,6 +81,40 @@ func ListAll(ctx context.Context) (res *ListProducts, err error) {
 
 		// append product in the list
 		res.Products = append(res.Products, &pdct)
+	}
+
+	return
+}
+
+// Add add a product on database
+func Add(ctx context.Context, in *Product) (err error) {
+	var (
+		transaction *database.DBTransaction
+		dados       = infra.Product{
+			ID:          utils.GetPointerInt64(in.GetId()),
+			Name:        utils.GetPointerString(in.GetName()),
+			Description: utils.GetPointerString(in.GetDescription()),
+			Price:       utils.GetPointerFloat64(in.GetPrice()),
+		}
+	)
+
+	// opening connection with database
+	if transaction, err = database.OpenConnection(ctx, false); err != nil {
+		return err
+	}
+
+	// rollback on transaction
+	defer transaction.Rollback()
+
+	// initialize repository of product
+	var repo = product.GetProductRepository(transaction)
+	if err = repo.Add(&dados); err != nil {
+		return err
+	}
+
+	// commit on transaction
+	if err = transaction.Commit(); err != nil {
+		return err
 	}
 
 	return
