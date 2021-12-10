@@ -90,7 +90,7 @@ func ListAll(ctx context.Context) (res *ListProducts, err error) {
 func Add(ctx context.Context, in *Product) (err error) {
 	var (
 		transaction *database.DBTransaction
-		dados       = infra.Product{
+		data        = infra.Product{
 			ID:          utils.GetPointerInt64(in.GetId()),
 			Name:        utils.GetPointerString(in.GetName()),
 			Description: utils.GetPointerString(in.GetDescription()),
@@ -108,7 +108,7 @@ func Add(ctx context.Context, in *Product) (err error) {
 
 	// initialize repository of product
 	var repo = product.GetProductRepository(transaction)
-	if err = repo.Add(&dados); err != nil {
+	if err = repo.Add(&data); err != nil {
 		return err
 	}
 
