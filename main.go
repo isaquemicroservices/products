@@ -4,26 +4,27 @@ import (
 	"log"
 	"net"
 
-	"github.com/isaqueveras/products-microservice/configuration"
-	"google.golang.org/grpc"
+	app "github.com/isaqueveras/products-microservice/application/product"
+	config "github.com/isaqueveras/products-microservice/configuration"
+	inter "github.com/isaqueveras/products-microservice/interfaces/product"
+	gogrpc "google.golang.org/grpc"
 )
 
 func main() {
-	var (
-		listen net.Listener
-		err    error
-	)
-
-	// listen on port
-	if listen, err = net.Listen("tcp", configuration.Port); err != nil {
+	// Listen on port
+	listen, err := net.Listen("tcp", config.Port)
+	if err != nil {
 		log.Fatalf("Failed to listen: %v", err.Error())
 	}
 
 	// Creating new server
-	server := grpc.NewServer()
+	server := gogrpc.NewServer()
+
+	// Product registration server
+	app.RegisterProductsServer(server, &inter.Server{})
 
 	// Message of success
-	log.Println("Server is running in port", configuration.Port)
+	log.Println("Server is running in port", config.Port)
 
 	// Initializing server
 	if err = server.Serve(listen); err != nil {
