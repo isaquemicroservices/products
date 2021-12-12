@@ -2,5 +2,5 @@ package configuration
 
 const (
 	// port of server
-	Port = ":9090"
+	Port = ":50051"
 )
