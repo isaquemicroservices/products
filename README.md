@@ -23,12 +23,13 @@ $ go tool cover -html=cover.out -o cover.html
 
 Create product table in PostgreSQL 
 ```sql
-CREATE TABLE IF NOT EXISTS t_products (
-  id             SERIAL NOT NULL,
-  name           VARCHAR(100) NOT NULL,
-  description    VARCHAR(255) NOT NULL,
-  price          DECIMAL NOT NULL,
-  created_at     TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  updated_at     TIMESTAMPTZ
+CREATE TABLE public.t_products (
+  id serial4 NOT NULL,
+  "name" varchar(100) NOT NULL,
+  description varchar(255) NOT NULL,
+  price numeric NULL,
+  created_at timestamptz NOT NULL DEFAULT now(),
+  updated_at timestamptz NULL,
+  CONSTRAINT t_products_pk PRIMARY KEY (id)
 );
 ```
