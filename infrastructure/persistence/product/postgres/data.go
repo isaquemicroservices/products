@@ -1,8 +1,6 @@
 package postgres
 
 import (
-	"database/sql"
-
 	sq "github.com/Masterminds/squirrel"
 	"github.com/isaqueveras/products-microservice/configuration/database"
 	"github.com/isaqueveras/products-microservice/infrastructure/persistence/product"
@@ -39,23 +37,22 @@ func (pg *PGProduct) ShowDetails(ProductID *int64) (res *product.Product, err er
 func (pg *PGProduct) ListAll() (res *product.ListProducts, err error) {
 	res = new(product.ListProducts)
 
-	var (
-		product product.Product
-		lines   *sql.Rows
-	)
-
-	if lines, err = pg.DB.Builder.
+	query := pg.DB.Builder.
 		Select(`
 			TP.id,
 			TP.name,
 			TP.description,
 			TP.price`).
-		From("t_products TP").
-		Query(); err != nil {
+		From("t_products TP")
+
+	lines, err := query.Query()
+	if err != nil {
 		return res, err
 	}
 
 	for lines.Next() {
+		var product product.Product
+
 		// scanning data to the struct
 		if err = lines.Scan(&product.ID, &product.Name, &product.Description, &product.Price); err != nil {
 			return res, err

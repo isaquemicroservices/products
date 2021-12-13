@@ -49,10 +49,7 @@ func ShowDetails(ctx context.Context, in *Params) (res *Product, err error) {
 func ListAll(ctx context.Context) (res *ListProducts, err error) {
 	res = new(ListProducts)
 
-	var (
-		transaction *database.DBTransaction
-		pdct        Product
-	)
+	var transaction *database.DBTransaction
 
 	// opening connection with database
 	if transaction, err = database.OpenConnection(ctx, true); err != nil {
@@ -73,14 +70,13 @@ func ListAll(ctx context.Context) (res *ListProducts, err error) {
 
 	// making a list to products
 	res.Products = make([]*Product, len(data.Data))
-	for ii := range res.Products {
-		pdct.Id = *data.Data[ii].ID
-		pdct.Name = *data.Data[ii].Name
-		pdct.Description = *data.Data[ii].Description
-		pdct.Price = *data.Data[ii].Price
-
-		// append product in the list
-		res.Products = append(res.Products, &pdct)
+	for i := range data.Data {
+		res.Products[i] = &Product{
+			Id:          *data.Data[i].ID,
+			Name:        *data.Data[i].Name,
+			Description: *data.Data[i].Description,
+			Price:       *data.Data[i].Price,
+		}
 	}
 
 	return
