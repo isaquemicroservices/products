@@ -1,22 +1,22 @@
 # Building microservice to list products using golang and grpc
 
 Command to generate protobuf
-```cmd
+```go
 $ protoc -I . protos/product/product.proto --go_out=plugins=grpc:./application
 ```
 
 Set environment variables
-```cmd
-$ export DB_HOST=localhost DB_USER=postgres DB_PASS= DB_PORT=5432 DB_NAME=postgres DB_DRIVER=postgres
+```go
+$ export DB_HOST=localhost DB_USER=postgres DB_PASS=? DB_PORT=5432 DB_NAME=postgres DB_DRIVER=postgres
 ```
 
 command to run the test
-```cmd
+```go
 $ go test ./... --cover
 ```
 
 Command to generate test files
-```cmd
+```go
 $ go test -coverprofile cover.out 
 $ go tool cover -html=cover.out -o cover.html
 ```
