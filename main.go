@@ -11,8 +11,11 @@ import (
 )
 
 func main() {
+	// Loading config of system
+	config.Load()
+
 	// Listen on port
-	listen, err := net.Listen("tcp", config.Port)
+	listen, err := net.Listen("tcp", config.Get().Address)
 	if err != nil {
 		log.Fatalf("Failed to listen: %v", err.Error())
 	}
@@ -24,7 +27,7 @@ func main() {
 	app.RegisterProductsServer(server, &inter.Server{})
 
 	// Message of success
-	log.Println("Server is running in port", config.Port)
+	log.Println(config.Get().Name, "is running in port", config.Get().Address)
 
 	// Initializing server
 	if err = server.Serve(listen); err != nil {

@@ -5,9 +5,16 @@ Command to generate protobuf
 $ protoc -I . protos/product/product.proto --go_out=plugins=grpc:./application
 ```
 
-Set environment variables
-```go
-$ export DB_HOST=localhost DB_USER=postgres DB_PASS=? DB_PORT=5432 DB_NAME=postgres DB_DRIVER=postgres
+### Create folder for config.json file
+```bat
+$ sudo mkdir /etc/ms-products
+$ sudo touch /etc/ms-products/config.json
+$ sudo cp ./config.json /etc/ms-products/config.json
+$ sudo chmod 777 /etc/ms-products/config.json
+```
+if you changed the config.json file, use the command at the bottom to update the config.json file on your computer
+```bat
+$ sudo cp ./config.json /etc/ms-products/config.json
 ```
 
 command to run the test
