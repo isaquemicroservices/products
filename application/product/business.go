@@ -115,3 +115,39 @@ func Add(ctx context.Context, in *Product) (err error) {
 
 	return
 }
+
+// ListAllProductsWithMinimumQuantity list all products with minumum quantity
+func ListAllProductsWithMinimumQuantity(ctx *context.Context) (res *ListProducts, err error) {
+	res = new(ListProducts)
+
+	var transaction *database.DBTransaction
+
+	// opening connection with database
+	if transaction, err = database.OpenConnection(ctx, true); err != nil {
+		return res, err
+	}
+
+	// rollback on transaction
+	defer transaction.Rollback()
+
+	// initialize repository of product
+	var repo = product.GetProductRepository(transaction)
+
+	// get a list of a product on database
+	data, err := repo.ListAllProductsWithMinimumQuantity()
+	if err != nil {
+		return res, err
+	}
+
+	// making a list to products
+	res.Products = make([]*Product, len(data.Data))
+	for i := range data.Data {
+		res.Products[i] = &Product{
+			Id:     *data.Data[i].ID,
+			Name:   *data.Data[i].Name,
+			Amount: *data.Data[i].Amount,
+		}
+	}
+
+	return
+}

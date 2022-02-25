@@ -10,6 +10,8 @@ service Products {
   rpc Show(Params) returns (Product) {}
   // Add function to create product
   rpc Add(Product) returns (Void) {}
+  // ListAllProductsWithMinimumQuantity list all products with minimum quantity
+  rpc ListAllProductsWithMinimumQuantity(Void) returns (ListProducts) {}
 }
 
 // Product model of one product
@@ -18,6 +20,8 @@ message Product {
   string name = 2;
   string description = 3;
   double price = 4;
+  int64 amount = 5;         
+	string expirationDate = 6;
 }
 
 // ListProducts model of one list of products

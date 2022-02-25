@@ -9,4 +9,6 @@ type IProduct interface {
 	ShowDetails(*int64) (*product.Product, error)
 	ListAll() (*product.ListProducts, error)
 	Add(*product.Product) error
+
+	ListAllProductsWithMinimumQuantity() (*product.ListProducts, error)
 }

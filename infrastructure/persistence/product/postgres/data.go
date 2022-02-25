@@ -79,3 +79,28 @@ func (pg *PGProduct) Add(in *product.Product) (err error) {
 
 	return nil
 }
+
+// ListAllProductsWithMinimumQuantity list all products with minimum quantity
+func (pg *PGProduct) ListAllProductsWithMinimumQuantity() (*product.ListProducts, error) {
+	query := pg.DB.Builder.
+		Select("id, name, amount").
+		From("t_products").
+		Where("amount <= 5::INTEGER")
+
+	var lines, err = query.Query()
+	if err != nil {
+		return nil, err
+	}
+
+	products := new(product.ListProducts)
+	for lines.Next() {
+		var product *product.Product
+		if err = lines.Scan(&product.ID, &product.Name, &product.Amount); err != nil {
+			return nil, err
+		}
+
+		products.Data = append(products.Data, *product)
+	}
+
+	return products, nil
+}

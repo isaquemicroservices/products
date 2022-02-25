@@ -30,3 +30,8 @@ func (r *repository) ListAll() (*product.ListProducts, error) {
 func (r *repository) Add(in *product.Product) error {
 	return r.pg.Add(in)
 }
+
+// ListAllProductsWithMinimumQuantity list all products with minumum quantity
+func (r *repository) ListAllProductsWithMinimumQuantity() (*product.ListProducts, error) {
+	return r.pg.ListAllProductsWithMinimumQuantity()
+}
