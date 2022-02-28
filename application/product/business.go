@@ -117,7 +117,7 @@ func Add(ctx context.Context, in *Product) (err error) {
 }
 
 // ListAllProductsWithMinimumQuantity list all products with minumum quantity
-func ListAllProductsWithMinimumQuantity(ctx *context.Context) (res *ListProducts, err error) {
+func ListAllProductsWithMinimumQuantity(ctx context.Context) (res *ListProducts, err error) {
 	res = new(ListProducts)
 
 	var transaction *database.DBTransaction
