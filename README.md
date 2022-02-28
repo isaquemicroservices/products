@@ -34,7 +34,9 @@ CREATE TABLE public.t_products (
   id serial4 NOT NULL,
   "name" varchar(100) NOT NULL,
   description varchar(255) NOT NULL,
-  price numeric NULL,
+  price numeric NOT NULL,
+  amount int4 NOT NULL,
+  expiration_date date NULL,
   created_at timestamptz NOT NULL DEFAULT now(),
   updated_at timestamptz NULL,
   CONSTRAINT t_products_pk PRIMARY KEY (id)
