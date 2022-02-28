@@ -38,11 +38,11 @@ func (s *Server) Add(ctx context.Context, in *product.Product) (*product.Void, e
 	return &product.Void{}, nil
 }
 
-// Add create product on database
-func (s *Server) ListAllProductsWithMinimumQuantity(ctx context.Context, _ *product.Void) (*product.ListProducts, error) {
-	if err := product.ListAllProductsWithMinimumQuantity(ctx); err != nil {
+// ListAllProductsWithMinimumQuantity List all products with minumum quantity
+func (s *Server) ListAllProductsWithMinimumQuantity(ctx context.Context, _ *product.Void) (products *product.ListProducts, err error) {
+	if products, err = product.ListAllProductsWithMinimumQuantity(ctx); err != nil {
 		return nil, err
 	}
 
-	return &product.ListProducts{}, nil
+	return
 }
