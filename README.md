@@ -1,4 +1,4 @@
-# Building microservice to list products using golang and grpc
+# 📙 Building microservice to list products using golang and grpc
 
 Command to generate protobuf
 ```go
